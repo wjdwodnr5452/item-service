@@ -43,6 +43,18 @@ public class BasicItemController {
         model.addAttribute("item", item);
         return "basic/item";
     }
+    
+    @GetMapping("/add")
+    public String addForm(){
+        return "basic/addForm";
+    }
+
+    // 같은 url 인데 메서드로 기능 구분 해줌 - 자주 이용하는 방식
+    @PostMapping("/add")
+    public String save(){
+        return "basic/addForm";
+    }
+
 
 
     /**
