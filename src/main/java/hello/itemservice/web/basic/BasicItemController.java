@@ -8,10 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -50,9 +47,56 @@ public class BasicItemController {
     }
 
     // 같은 url 인데 메서드로 기능 구분 해줌 - 자주 이용하는 방식
+    //@PostMapping("/add")
+    public String addItemV1(@RequestParam String itemName,
+                       @RequestParam int price,
+                       @RequestParam Integer quantity,
+                       Model model){
+
+
+        Item item = new Item();
+        item.setItemName(itemName);
+        item.setPrice(price);
+        item.setQuantity(quantity);
+
+        itemRepository.save(item);
+
+        model.addAttribute("item", item);
+
+        return "basic/item";
+    }
+
+
+   // @PostMapping("/add")
+    public String addItemV2(@ModelAttribute("item") Item item,
+                       Model model){
+
+        // ModelAttribute는 model 객체를 만들어주고 담은 Model에 view에 넣어준다(@ModelAttribute("item")).
+        itemRepository.save(item);
+       // model.addAttribute("item", item); @ModelAttribute("item") 생략 가능
+
+        return "basic/item";
+    }
+
+  //  @PostMapping("/add")
+    public String addItemV3(@ModelAttribute Item item){
+
+        // ("item") 생략 하실 클래스 명을 가져와 Item -> item으로 바꿔서 model에 담겨준다.
+        itemRepository.save(item);
+        // model.addAttribute("item", item); @ModelAttribute("item") 생략 가능
+
+        return "basic/item";
+    }
+
+
     @PostMapping("/add")
-    public String save(){
-        return "basic/addForm";
+    public String addItemV4(Item item){
+
+        // @ModelAttribute 생략 가능
+        itemRepository.save(item);
+        // model.addAttribute("item", item); @ModelAttribute("item") 생략 가능
+
+        return "basic/item";
     }
 
 
