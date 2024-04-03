@@ -88,6 +88,25 @@ public class BasicItemController {
         return "basic/item";
     }
 
+    //@PostMapping("/add")
+    public String addItemV4(Item item){
+
+        // @ModelAttribute 생략 가능
+        itemRepository.save(item);
+        // model.addAttribute("item", item); @ModelAttribute("item") 생략 가능
+
+        return "basic/item";
+    }
+
+    @PostMapping("/add")
+    public String addItemV5(Item item){
+        // @ModelAttribute 생략 가능
+        itemRepository.save(item);
+        // model.addAttribute("item", item); @ModelAttribute("item") 생략 가능
+
+        return "redirect:/basic/items/"+item.getId();
+    }
+
     @GetMapping("/{itemId}/edit")
     public String editForm(@PathVariable Long itemId, Model model){
         Item item = itemRepository.findById(itemId);
@@ -101,17 +120,6 @@ public class BasicItemController {
         itemRepository.update(itemId, item);
 
         return "redirect:/basic/items/{itemId}";
-    }
-
-
-    @PostMapping("/add")
-    public String addItemV4(Item item){
-
-        // @ModelAttribute 생략 가능
-        itemRepository.save(item);
-        // model.addAttribute("item", item); @ModelAttribute("item") 생략 가능
-
-        return "basic/item";
     }
 
 
